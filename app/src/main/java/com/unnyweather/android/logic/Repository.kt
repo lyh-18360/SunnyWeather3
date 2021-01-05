@@ -2,6 +2,8 @@ package com.unnyweather.android.logic
 
 import androidx.lifecycle.liveData
 import com.sunnyweather.android.logic.network.SunnyWeatherNetwork
+import com.unnyweather.android.logic.dao.PlaceDao
+import com.unnyweather.android.logic.model.Place
 import com.unnyweather.android.logic.model.Weather
 
 
@@ -11,6 +13,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.coroutines.CoroutineContext
 
 object Repository {
+
+
 
     fun searchPlaces(query: String) = fire(Dispatchers.IO) {
         val placeResponse = SunnyWeatherNetwork.searchPlaces(query)
@@ -56,5 +60,8 @@ object Repository {
             }
             emit(result)
         }
+    fun savePlace(place: Place)=PlaceDao.savePlace(place)
+    fun getSavedPlace()=PlaceDao.getSavedPlace()
+    fun isPlaceSaved()=PlaceDao.isPlaceSaved()
 
 }
