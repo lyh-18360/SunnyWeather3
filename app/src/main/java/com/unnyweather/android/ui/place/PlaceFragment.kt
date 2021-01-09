@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.unnyweather.android.MainActivity
 import com.unnyweather.android.R
 import com.unnyweather.android.ui.weather.WeatherActivity
 
@@ -28,10 +29,9 @@ class PlaceFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_place, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-//        if (viewModel.isPlaceSaved()){
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        if (activity is MainActivity && viewModel.isPlaceSaved()){
 //            val place=viewModel.getSavedPlace()
 //            val intent=Intent(context,WeatherActivity::class.java).apply {
 //                putExtra("location_lng",place.location.lng)
@@ -42,6 +42,23 @@ class PlaceFragment : Fragment() {
 //            activity?.finish()
 //            return
 //        }
+//    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //super.onActivityCreated(savedInstanceState)
+        if (activity is MainActivity && viewModel.isPlaceSaved()){
+            val place=viewModel.getSavedPlace()
+            val intent=Intent(context,WeatherActivity::class.java).apply {
+                putExtra("location_lng",place.location.lng)
+                putExtra("location_lat",place.location.lat)
+                putExtra("place_name",place.name)
+            }
+            startActivity(intent)
+            activity?.finish()
+            return
+        }
+
+
 
         val layoutManager = LinearLayoutManager(activity)
         recyclerView.layoutManager = layoutManager
